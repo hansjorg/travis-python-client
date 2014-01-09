@@ -40,6 +40,9 @@ def get_travis_token(github_token):
 def restart_build(travis_token, build_id):
     return call('/requests', travis_token, { 'build_id': build_id })
 
+def get_repo(owner_name, repo_name):
+    return call('/repos/{}/{}'.format(owner_name, repo_name))
+
 def get_repo_builds(owner_name, repo_name):
     return call('/repos/{}/{}/builds'.format(owner_name, repo_name))
 
@@ -139,6 +142,9 @@ if __name__ == "__main__":
     owner_name = 'hansjorg'
     repo_name = 'rustci-test-project'
     branch = 'master'
+    
+    result = get_repo(owner_name, repo_name)
+    print(json.dumps(result, sort_keys=True, indent=4))
     
     result = get_last_build_on_branch(owner_name, repo_name, branch)
     print(json.dumps(result, sort_keys=True, indent=4))
