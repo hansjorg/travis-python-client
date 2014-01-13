@@ -101,6 +101,9 @@ def call(url, token = None, data = None):
 # Helper functions
 
 def get_secure_env_var(owner_name, repo_name, var, val):
+    return get_secure_string(owner_name, repo_name, var + '=' + val)
+
+def get_secure_string(owner_name, repo_name, string):
     """
     Encrypts a VAR=val pair with the given repo's public key for use
     as a secure environment variable in .travis.yml.
@@ -113,9 +116,9 @@ def get_secure_env_var(owner_name, repo_name, var, val):
     
     if sys.version_info[0] >= 3:
         # Python 3.0 and later
-        plaintext = (var + '=' + val).encode(encoding='UTF-8')
+        plaintext = string.encode(encoding='UTF-8')
     else:
-        plaintext = var + '=' + val
+        plaintext = string
 
     ciphertext = cipher.encrypt(plaintext)
 
