@@ -76,9 +76,13 @@ def call(url, token = None, data = None):
     try:    
         response = urlopen(request)
     except HTTPError as error:
-        print('Error response from Travis: ' + str(error.code))
-        print(error.read())
+        error_msg = error.read()
 
+        print('Error response from Travis: ' + str(error.code))
+        print(error_msg)
+
+        if error.code == 403:
+            raise AuthException(error_msg)
         return None
  
     response_data = response.read()
@@ -141,11 +145,15 @@ def trigger_build_restart(travis_token, owner_name, repo_name):
     return restart_build(travis_token, last_build_id)['result']
 
 
+class AuthException(Exception):
+    pass
+
+
 if __name__ == "__main__":
     owner_name = 'hansjorg'
     repo_name = 'rustci-test-project'
     branch = 'master'
-    
+   
     result = get_repo(owner_name, repo_name)
     print(json.dumps(result, sort_keys=True, indent=4))
     
