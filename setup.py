@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='travisclient',
-    version = '1.0',
+    version = '1.0.1',
     description = 'Python client for Travis CI',
     author = 'Hans Jørgen Hoel',
     author_email = 'hansjorg@gmail.com',
