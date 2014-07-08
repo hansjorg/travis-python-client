@@ -94,6 +94,10 @@ def call(url, token = None, data = None):
             encoding = response.headers.get_content_charset()
         else:
             encoding = response.headers.getparam('charset')
+
+        if not encoding:
+            encoding = 'utf-8'
+
         try:
             result = json.loads(response_data.decode(encoding))
         except ValueError:
